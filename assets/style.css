@@ -1,0 +1,23 @@
+
+
+.count{
+    display: inline;
+    float: right;
+}
+
+#question-count{
+    text-align: center;
+}
+
+.hide{
+    display: none;
+}
+
+#question-block{
+    border-bottom: solid 1px black;
+}
+
+.answer-choices{
+    display: block;
+    margin-bottom: 5px;
+}
