@@ -21,17 +21,28 @@ var questionTwo = {
     answer: 0,
     options: ["This is true now", "this is false 1", "this is false 2", "this is false 3"]
 }
+var questionThree = {
+    q: "This is the third question",
+    answer: 1,
+    options: ["This is false 1", "This is now the true option", "This is false 2", "This is the final false"]
+}
+var questionFour = {
+    q: "Welcome to question 4",
+    answer: 2,
+    options: ["Please do not pick this", "This is wrong", "Yay right answer", "Final one that is wrong"]
+}
 
 //List of questions
-var questionList = [questionOne, questionTwo];
+var questionList = [questionOne, questionTwo, questionThree];
 
 timer.textContent = score;
 
+//Button on start page to launch the quiz
 startButton.addEventListener("click", function(event){
     if(event.target.matches("button")){
 
         //set time to max and begin countdown
-        score = 15
+        score = 15;
         scoreCountDown();
 
         //Hide starting screen and switch to questions
@@ -41,20 +52,15 @@ startButton.addEventListener("click", function(event){
 
         
 
-        //Show questions
+        //Run functions to display the first question and answer choices
         displayQuestion(0);
         displayAnswers(0);
-
-        // displayQuestion(1);
-        // displayAnswers(1);
-
-
-        
 
     }
     
 });
 
+//Function to countdown the score
 function scoreCountDown() {
     var timerInterval = setInterval(function(){
         score--;
@@ -65,15 +71,17 @@ function scoreCountDown() {
             clearInterval(timerInterval);
 
             //HERE PLEASE REPLACE better notification when gameover
-            alert("you lose")
+            
         }
     }, 1000);
 }
 
+//Function to display the next question
 function displayQuestion(qnum){
     currentQuestion.textContent = questionList[qnum].q;
 }
 
+//Function to generate answer choices as buttons
 function displayAnswers(qnum){
     //for loop to genereate buttons for the questions
     for(i=0; i < questionList[qnum].options.length; i++){
@@ -86,12 +94,11 @@ function displayAnswers(qnum){
         newButtonEl.setAttribute("data-value", i);
         answerChoices.appendChild(newButtonEl);
 
-        //event listener for the button
+        //event listener for the answer choice buttons
         newButtonEl.addEventListener("click", function(event){
             if(event.target.matches("button")){
                 var rightAnswer = parseInt(event.target.getAttribute("data-value"));
-                console.log(rightAnswer);
-                answerChoices.remove();
+                
                 if(rightAnswer === questionList[qnum].answer){
                     //function to countdown correct being shown
                     correctCD();
@@ -100,9 +107,20 @@ function displayAnswers(qnum){
                 else{
                     //function to countdown incorrect being shown
                     incorrectCD();
+                    score = score - 5;
                 }
-                displayQuestion(parseInt(qnum)+1);
-                displayAnswers(qnum+1);
+                answerChoices.innerHTML = '';
+
+                if((parseInt(qnum)+1)< questionList.length){
+                    displayQuestion(parseInt(qnum)+1);
+                    displayAnswers(parseInt(qnum)+1);
+                }
+                else{
+                    endTimer = true;
+                    currentQuestion.textContent = "Congratulations Champ! You have completed the World's Hardest Coding Quiz! Please enter your name to be on the leaderboard";
+                    alert("quiz over");
+                }
+                
             }
         })
     
