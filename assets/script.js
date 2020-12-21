@@ -13,8 +13,12 @@ var questionOne = {
     q: "This is a sample question",
     a: 3,
     options: ["This is false 1", "This is false 2", "This is false 3", "This is true"]
-    
 };
+var questionTwo = {
+    q: "This is the second question",
+    a: 0,
+    options: ["This is true now", "this is false 1", "this is false 2", "this is false 3"]
+}
 
 //List of questions
 var questionList = [questionOne];
@@ -23,7 +27,7 @@ timer.textContent = score;
 
 startButton.addEventListener("click", function(event){
     if(event.target.matches("button")){
-        console.log("button pressed");
+
 
         //Hide starting screen and switch to questions
         initialScreen.style.display = "none";
@@ -35,16 +39,14 @@ startButton.addEventListener("click", function(event){
         scoreCountDown();
 
         //Show questions
-        var newQuestionEl = document.createElement("h3");
-        newQuestionEl.textContent = questionList[0].q;
-        questionBlock.appendChild(newQuestionEl);
+        displayQuestion();
 
 
         //for loop to genereate buttons for the questions
-        for(i=0; i < questionOne.options.length; i++){
+        for(i=0; i < questionList[0].options.length; i++){
             console.log("test");
             var newButtonEl = document.createElement("button");
-            newButtonEl.textContent = questionOne.options[i];
+            newButtonEl.textContent = questionList[0].options[i];
             newButtonEl.setAttribute("class", "btn btn-info answer-choices");
 
             //data value to determine which button is clicked
@@ -57,9 +59,14 @@ startButton.addEventListener("click", function(event){
                     var rightAnswer = parseInt(event.target.getAttribute("data-value"));
                     console.log(rightAnswer);
                     if(rightAnswer === questionList[0].a){
-                        alert("You win")
+                        //function to countdown correct being shown
+                        correctCD();
+                        
                     }
-                    else{alert("You lose")}
+                    else{
+                        //function to countdown incorrect being shown
+                        incorrectCD();
+                    }
                 }
             })
         
@@ -81,4 +88,38 @@ function scoreCountDown() {
             alert("you lose")
         }
     }, 1000);
+}
+
+function displayQuestion(){
+    var newQuestionEl = document.createElement("h3");
+    newQuestionEl.textContent = questionList[0].q;
+    questionBlock.appendChild(newQuestionEl);
+}
+
+function correctCD() {
+    var display = 3;
+    var timerInterval = setInterval(function(){
+        rightOrWrong.textContent = "CORRECT"
+        display--;
+
+        //countdown break
+        if (display === 0){
+            clearInterval(timerInterval);
+            rightOrWrong.textContent = "";
+        }
+    }, 1000)
+}
+
+function incorrectCD() {
+    var display = 3;
+    var timerInterval = setInterval(function(){
+        display--;
+        rightOrWrong.textContent = "INCORRECT"
+
+        //countdown break
+        if (display === 0){
+            clearInterval(timerInterval);
+            rightOrWrong.textContent = "";
+        }
+    }, 1000)
 }
