@@ -7,8 +7,12 @@ var startButton = document.querySelector("#start-button");
 var initialScreen = document.querySelector("#initial-screen");
 var rightOrWrong = document.querySelector("#area-if-rightWrong")
 var endTimer = false;
-var currentQuestion = document.querySelector("#current-question")
-var answerChoices = document.querySelector("#answer-choices")
+var currentQuestion = document.querySelector("#current-question");
+var answerChoices = document.querySelector("#answer-choices");
+var highScoreForm = document.querySelector("#highscore-form");
+var finalScore = document.querySelector("#final-score");
+var highScoreButton = document.querySelector("#highscore-button");
+var nameInput = document.querySelector("#name-input");
 
 //Questions with options
 var questionOne = {
@@ -31,9 +35,14 @@ var questionFour = {
     answer: 2,
     options: ["Please do not pick this", "This is wrong", "Yay right answer", "Final one that is wrong"]
 }
+var questionFive = {
+    q: "It's the final question",
+    answer: 0,
+    options: ["Hey pick me", "but like not me", "or me!!!", "I am definitely wrong"]
+}
 
 //List of questions
-var questionList = [questionOne, questionTwo, questionThree];
+var questionList = [questionOne, questionTwo, questionThree, questionFour, questionFive];
 
 timer.textContent = score;
 
@@ -116,9 +125,7 @@ function displayAnswers(qnum){
                     displayAnswers(parseInt(qnum)+1);
                 }
                 else{
-                    endTimer = true;
-                    currentQuestion.textContent = "Congratulations Champ! You have completed the World's Hardest Coding Quiz! Please enter your name to be on the leaderboard";
-                    alert("quiz over");
+                    endOfGame();
                 }
                 
             }
@@ -130,7 +137,7 @@ function displayAnswers(qnum){
 
 
 function correctCD() {
-    var display = 3;
+    var display = 2;
     var timerInterval = setInterval(function(){
         rightOrWrong.textContent = "CORRECT"
         display--;
@@ -144,7 +151,7 @@ function correctCD() {
 }
 
 function incorrectCD() {
-    var display = 3;
+    var display = 2;
     var timerInterval = setInterval(function(){
         display--;
         rightOrWrong.textContent = "INCORRECT"
@@ -156,3 +163,20 @@ function incorrectCD() {
         }
     }, 1000)
 }
+
+function endOfGame(){
+    endTimer = true;
+    currentQuestion.textContent = "Congratulations Champ! You have completed the World's Hardest Coding Quiz! Please enter your name to be on the leaderboard";
+    currentQuestion.setAttribute("class", "text-center");
+    questionBlock.style.border = "none";
+    finalScore.textContent = ": " + score;
+    highScoreForm.style.display = "block";
+}
+
+highScoreButton.addEventListener("click", function(event){
+    event.preventDefault();
+    var newHS = {name: nameInput, highscore: score};
+    JSON.stringify(newHS);
+    localStorage.setItem("highScore", newHS);
+    location.href = "highscores.html";
+});
