@@ -13,6 +13,8 @@ var highScoreForm = document.querySelector("#highscore-form");
 var finalScore = document.querySelector("#final-score");
 var highScoreButton = document.querySelector("#highscore-button");
 var nameInput = document.querySelector("#name-input");
+var highscores = [];
+var champions = [];
 
 //Questions with options
 var questionOne = {
@@ -175,8 +177,11 @@ function endOfGame(){
 
 highScoreButton.addEventListener("click", function(event){
     event.preventDefault();
-    var newHS = {name: nameInput, highscore: score};
-    JSON.stringify(newHS);
-    localStorage.setItem("highScore", newHS);
+    champions.push(nameInput.value);
+    highscores.push(parseInt(score));
+    savedChampions = JSON.stringify(champions);
+    savedHighscores = JSON.stringify(highscores);
+    localStorage.setItem("highScore", savedHighscores);
+    localStorage.setItem("champion", savedChampions);
     location.href = "highscores.html";
 });

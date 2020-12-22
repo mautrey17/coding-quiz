@@ -7,14 +7,28 @@
         <link rel="stylesheet" href="assets/style.css">
     </head>
     <body>
-        <h1>just a test</h1>
+        
         <!-- container starts here -->
         <div class="container">
-        
+            <h1 class="text-center mt-3">The Coding Legends</h1>
+
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Score</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  
+                </tbody>
+              </table>
+            <button type="button" class="btn btn-primary btn-lg" id="return-button">Quiz Start</button>
+            <button type="button" class="btn btn-primary btn-lg" id="clear-button">Clear High Scores</button>
 
 
         <!-- container ends here -->
         </div>
-        <script src="assets/script.js"></script>
+        <script src="assets/highscores.js"></script>
     </body>
 </html>
