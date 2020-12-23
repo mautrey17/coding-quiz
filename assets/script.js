@@ -16,31 +16,35 @@ var nameInput = document.querySelector("#name-input");
 var highscores = [];
 var champions = [];
 
+storageCheck();
+
+console.log(highscores);
+
 //Questions with options
 var questionOne = {
-    q: "This is a sample question",
-    answer: 3,
-    options: ["This is false 1", "This is false 2", "This is false 3", "This is true"]
+    q: "Commonly used data types DO NOT include:",
+    answer: 2,
+    options: ["strings", "booleans", "alerts", "numbers"]
 };
 var questionTwo = {
-    q: "This is the second question",
+    q: "The condition in an if / else statement is enclosed within _____",
     answer: 0,
-    options: ["This is true now", "this is false 1", "this is false 2", "this is false 3"]
+    options: ["parentheses", "quotes", "curly brackets", "square brackets"]
 }
 var questionThree = {
-    q: "This is the third question",
-    answer: 1,
-    options: ["This is false 1", "This is now the true option", "This is false 2", "This is the final false"]
+    q: "Arrays in JavaScript can be used to store ______",
+    answer: 3,
+    options: ["numbers and strings", "other arrays", "booleans", "all of the above"]
 }
 var questionFour = {
-    q: "Welcome to question 4",
+    q: "String values must be enclosed within ____ when being assigned to variables.",
     answer: 2,
-    options: ["Please do not pick this", "This is wrong", "Yay right answer", "Final one that is wrong"]
+    options: ["commas", "curly brackets", "quotes", "parentheses"]
 }
 var questionFive = {
-    q: "It's the final question",
-    answer: 0,
-    options: ["Hey pick me", "but like not me", "or me!!!", "I am definitely wrong"]
+    q: "A very useful tool used during development and debugging for printing content to the debugger is:",
+    answer: 1,
+    options: ["JavaScript", "console.log", "terminal/bash", "for loops"]
 }
 
 //List of questions
@@ -53,7 +57,7 @@ startButton.addEventListener("click", function(event){
     if(event.target.matches("button")){
 
         //set time to max and begin countdown
-        score = 15;
+        score = 75;
         scoreCountDown();
 
         //Hide starting screen and switch to questions
@@ -177,11 +181,27 @@ function endOfGame(){
 
 highScoreButton.addEventListener("click", function(event){
     event.preventDefault();
-    champions.push(nameInput.value);
-    highscores.push(parseInt(score));
+    var savedObject = {
+        highScore: score,
+        winnerName: nameInput.value
+    }
+    champions.push(savedObject);
+    // champions.push(nameInput.value);
+    // highscores.push(parseInt(score));
     savedChampions = JSON.stringify(champions);
-    savedHighscores = JSON.stringify(highscores);
-    localStorage.setItem("highScore", savedHighscores);
+    // savedHighscores = JSON.stringify(highscores);
+    // localStorage.setItem("highScore", savedHighscores);
     localStorage.setItem("champion", savedChampions);
     location.href = "highscores.html";
 });
+
+function storageCheck() {
+    // Check if
+    // If so, parse the value from localStorage and assign it to the todos variable
+    var savedChampions = JSON.parse(localStorage.getItem("champion"));
+    // var savedHighScore = JSON.parse(localStorage.getItem("highScore"));
+    if(savedChampions){
+    //   highscores = savedHighScore;
+      champions = savedChampions;
+    }
+};
