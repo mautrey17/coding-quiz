@@ -1,26 +1,31 @@
 //global variables
+//Elements shown on page launch
+var initialScreen = document.querySelector("#initial-screen");
 var timer = document.querySelector("#timer");
+
+//buttons
+var startButton = document.querySelector("#start-button");
+var highScoreButton = document.querySelector("#highscore-button");
+
+//Areas during the quiz with questions and answers
 var questionCount = document.querySelector("#question-count");
 var questionBlock = document.querySelector("#question-block");
-var score = 0;
-var startButton = document.querySelector("#start-button");
-var initialScreen = document.querySelector("#initial-screen");
-var rightOrWrong = document.querySelector("#area-if-rightWrong")
-var endTimer = false;
 var currentQuestion = document.querySelector("#current-question");
 var answerChoices = document.querySelector("#answer-choices");
+var rightOrWrong = document.querySelector("#area-if-rightWrong");
+
+//End screen after quiz
 var highScoreForm = document.querySelector("#highscore-form");
-var finalScore = document.querySelector("#final-score");
-var highScoreButton = document.querySelector("#highscore-button");
 var nameInput = document.querySelector("#name-input");
-var highscores = [];
+var finalScore = document.querySelector("#final-score");
+
+//initial variable of score, previous winners, timer being active, and global index
+var score = 0;
+var endTimer = false;
 var champions = [];
+var qnum = 0;
 
-storageCheck();
-
-console.log(highscores);
-
-//Questions with options
+//List of questions
 var questionOne = {
     q: "Commonly used data types DO NOT include:",
     answer: 2,
@@ -47,10 +52,14 @@ var questionFive = {
     options: ["JavaScript", "console.log", "terminal/bash", "for loops"]
 }
 
-//List of questions
+//List of questions as array
 var questionList = [questionOne, questionTwo, questionThree, questionFour, questionFive];
 
+//set value of timer
 timer.textContent = score;
+
+//check if there are previous winners in storage
+storageCheck();
 
 //Button on start page to launch the quiz
 startButton.addEventListener("click", function(event){
@@ -65,14 +74,10 @@ startButton.addEventListener("click", function(event){
         questionCount.style.display = "block";
         questionBlock.style.display = "block";
 
-        
-
         //Run functions to display the first question and answer choices
         displayQuestion(0);
         displayAnswers(0);
-
     }
-    
 });
 
 //Function to countdown the score
@@ -86,12 +91,12 @@ function scoreCountDown() {
             clearInterval(timerInterval);
 
             //HERE PLEASE REPLACE better notification when gameover
-            
         }
     }, 1000);
 }
 
 //Function to display the next question
+//qnum is index of question
 function displayQuestion(qnum){
     currentQuestion.textContent = questionList[qnum].q;
 }
@@ -100,12 +105,12 @@ function displayQuestion(qnum){
 function displayAnswers(qnum){
     //for loop to genereate buttons for the questions
     for(i=0; i < questionList[qnum].options.length; i++){
-        console.log("test");
+
+        //create button with attributes, text, and data and append
         var newButtonEl = document.createElement("button");
         newButtonEl.textContent = questionList[qnum].options[i];
         newButtonEl.setAttribute("class", "btn btn-info answer-choices");
 
-        //data value to determine which button is clicked
         newButtonEl.setAttribute("data-value", i);
         answerChoices.appendChild(newButtonEl);
 
@@ -122,13 +127,13 @@ function displayAnswers(qnum){
                 else{
                     //function to countdown incorrect being shown
                     incorrectCD();
-                    score = score - 5;
+                    score = score - 10;
                 }
                 answerChoices.innerHTML = '';
-
-                if((parseInt(qnum)+1)< questionList.length){
-                    displayQuestion(parseInt(qnum)+1);
-                    displayAnswers(parseInt(qnum)+1);
+                qnum++;
+                if(parseInt(qnum)< questionList.length){
+                    displayQuestion(parseInt(qnum));
+                    displayAnswers(parseInt(qnum));
                 }
                 else{
                     endOfGame();
@@ -205,3 +210,20 @@ function storageCheck() {
       champions = savedChampions;
     }
 };
+
+// function correctCD() {
+//     var display = 2;
+//     rightOrWrong.textContent = "CORRECT"
+//     display--;
+//     clearInterval(timerInterval);
+//     //countdown break
+//     if (display === 0){
+//         clearInterval(timerInterval);
+//         rightOrWrong.textContent = "";
+//     }
+//     var timerInterval = setTimeout(function(){
+//         scoreCountDown();
+//     displayQuestion(parseInt(qnum)+1);
+//                     displayAnswers(parseInt(qnum)+1);
+//     }, 2000)
+// }
