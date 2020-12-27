@@ -6,6 +6,8 @@ var timer = document.querySelector("#timer");
 //buttons
 var startButton = document.querySelector("#start-button");
 var highScoreButton = document.querySelector("#highscore-button");
+var refreshButton = document.querySelector("#refresh-button");
+var viewScoresButton = document.querySelector("#view-scores-button");
 
 //Areas during the quiz with questions and answers
 var questionCount = document.querySelector("#question-count");
@@ -18,6 +20,7 @@ var rightOrWrong = document.querySelector("#area-if-rightWrong");
 var highScoreForm = document.querySelector("#highscore-form");
 var nameInput = document.querySelector("#name-input");
 var finalScore = document.querySelector("#final-score");
+var lossDiv = document.querySelector("#loss-div");
 
 //initial variable of score, previous winners, timer being active, and global index
 var score = 0;
@@ -66,7 +69,7 @@ startButton.addEventListener("click", function(event){
     if(event.target.matches("button")){
 
         //set time to max and begin countdown
-        score = 75;
+        score = 50;
         scoreCountDown();
 
         //Hide starting screen and switch to questions
@@ -87,10 +90,14 @@ function scoreCountDown() {
         timer.textContent = score;
 
         //timer break
-        if(score === 0 || endTimer){
+        if(score <= 0) {
             clearInterval(timerInterval);
-
+            score = 0;
+            alert("You are out of time. Please answer the final question to end the quiz.");
             //HERE PLEASE REPLACE better notification when gameover
+        }
+        else if(endTimer){
+            clearInterval(timerInterval);
         }
     }, 1000);
 }
@@ -137,16 +144,14 @@ function displayAnswers(qnum){
                 }
                 else{
                     endOfGame();
-                }
-                
+                } 
             }
         })
-    
     }
 }
 
 
-
+//Function for when correct answer is chosen: time is the same and correct is displayed
 function correctCD() {
     var display = 2;
     var timerInterval = setInterval(function(){
@@ -161,6 +166,7 @@ function correctCD() {
     }, 1000)
 }
 
+//Function for when correct answer is chosen: time is subtracted and correct is displayed
 function incorrectCD() {
     var display = 2;
     var timerInterval = setInterval(function(){
@@ -177,11 +183,18 @@ function incorrectCD() {
 
 function endOfGame(){
     endTimer = true;
-    currentQuestion.textContent = "Congratulations Champ! You have completed the World's Hardest Coding Quiz! Please enter your name to be on the leaderboard";
-    currentQuestion.setAttribute("class", "text-center");
-    questionBlock.style.border = "none";
-    finalScore.textContent = ": " + score;
-    highScoreForm.style.display = "block";
+    if (score > 0){
+        currentQuestion.textContent = "Congratulations Champ! You have completed the World's Hardest Coding Quiz! Please enter your name to be on the leaderboard";
+        currentQuestion.setAttribute("class", "text-center");
+        questionBlock.style.border = "none";
+        finalScore.textContent = ": " + score;
+        highScoreForm.style.display = "block";
+    }
+    else{
+        currentQuestion.textContent = "Aww, you will get them next time, champ! Don't give up!";
+        currentQuestion.setAttribute("class", "text-center");
+        lossDiv.style.display = "block";
+    }
 }
 
 highScoreButton.addEventListener("click", function(event){
@@ -206,3 +219,11 @@ function storageCheck() {
       champions = savedChampions;
     }
 };
+
+refreshButton.addEventListener("click", function(){
+    location.reload();
+})
+
+viewScoresButton.addEventListener("click", function(){
+    location.href = "highscores.html";
+})
