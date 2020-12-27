@@ -3,7 +3,7 @@ Description: This quiz is a browser game built from HTML, CSS, and vanilla JavaS
 
 Installation: None required
 
-Usage: Follow the link to the quiz. Click on the "Bring it on" button to begin the quiz. In order to earn a place on the leader board, the quiz must be completed before the timer reaches 0.
+Usage: Follow the link https://mautrey17.github.io/coding-quiz/ to the quiz. Click on the "Bring it on" button to begin the quiz. In order to earn a place on the leader board, the quiz must be completed before the timer reaches 0.
 
 ![alt text](assets/images/homeScreenShot.png)
 
