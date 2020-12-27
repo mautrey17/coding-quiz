@@ -187,15 +187,19 @@ function incorrectCD() {
     }, 1000)
 }
 
+//Function to end the game
 function endOfGame(){
     endTimer = true;
+    //If game ends because all of the questions are answered
     if (score > 0){
+        //Display the winning text and form to submit name for the leaderboard
         currentQuestion.textContent = "Congratulations Champ! You have completed the World's Hardest Coding Quiz! Please enter your name to be on the leaderboard";
         currentQuestion.setAttribute("class", "text-center");
         questionBlock.style.border = "none";
         finalScore.textContent = ": " + score;
         highScoreForm.style.display = "block";
     }
+    //If game ends because the timer runs out
     else{
         currentQuestion.textContent = "Aww, you will get them next time, champ! Don't give up!";
         currentQuestion.setAttribute("class", "text-center");
@@ -203,15 +207,18 @@ function endOfGame(){
     }
 }
 
+//Button to save name to leaderboard and display the leaderboard
 highScoreButton.addEventListener("click", function(event){
     event.preventDefault();
     var savedObject = {
         highScore: score,
         winnerName: nameInput.value
     }
+    //Add new entry to saved entries and save to localStorage
     champions.push(savedObject);
     savedChampions = JSON.stringify(champions);
     localStorage.setItem("champion", savedChampions);
+    //Take user to leaderboard
     location.href = "highscores.html";
 });
 
@@ -226,10 +233,12 @@ function storageCheck() {
     }
 };
 
+//Button on game loss to restart the game
 refreshButton.addEventListener("click", function(){
     location.reload();
 })
 
+//Button on game loss to view the leaderboard
 viewScoresButton.addEventListener("click", function(){
     location.href = "highscores.html";
 })
