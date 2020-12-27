@@ -110,44 +110,50 @@ function displayQuestion(qnum){
 
 //Function to generate answer choices as buttons
 function displayAnswers(qnum){
+
+    if(score>0){
     //for loop to genereate buttons for the questions
-    for(i=0; i < questionList[qnum].options.length; i++){
+        for(i=0; i < questionList[qnum].options.length; i++){
 
-        //create button with attributes, text, and data and append
-        var newButtonEl = document.createElement("button");
-        newButtonEl.textContent = questionList[qnum].options[i];
-        newButtonEl.setAttribute("class", "btn btn-info answer-choices");
+            //create button with attributes, text, and data and append
+            var newButtonEl = document.createElement("button");
+            newButtonEl.textContent = questionList[qnum].options[i];
+            newButtonEl.setAttribute("class", "btn btn-info answer-choices");
 
-        newButtonEl.setAttribute("data-value", i);
-        answerChoices.appendChild(newButtonEl);
+            newButtonEl.setAttribute("data-value", i);
+            answerChoices.appendChild(newButtonEl);
 
-        //event listener for the answer choice buttons
-        newButtonEl.addEventListener("click", function(event){
-            if(event.target.matches("button")){
-                var rightAnswer = parseInt(event.target.getAttribute("data-value"));
-                
-                if(rightAnswer === questionList[qnum].answer){
-                    //function to countdown correct being shown
-                    correctCD();
+            //event listener for the answer choice buttons
+            newButtonEl.addEventListener("click", function(event){
+                if(event.target.matches("button")){
+                    var rightAnswer = parseInt(event.target.getAttribute("data-value"));
                     
+                    if(rightAnswer === questionList[qnum].answer){
+                        //function to countdown correct being shown
+                        correctCD();
+                        
+                    }
+                    else{
+                        //function to countdown incorrect being shown
+                        incorrectCD();
+                        score = score - 10;
+                    }
+                    answerChoices.innerHTML = '';
+                    qnum++;
+                    if(parseInt(qnum)< questionList.length){
+                        displayQuestion(parseInt(qnum));
+                        displayAnswers(parseInt(qnum));
+                    }
+                    else{
+                        endOfGame();
+                    } 
                 }
-                else{
-                    //function to countdown incorrect being shown
-                    incorrectCD();
-                    score = score - 10;
-                }
-                answerChoices.innerHTML = '';
-                qnum++;
-                if(parseInt(qnum)< questionList.length){
-                    displayQuestion(parseInt(qnum));
-                    displayAnswers(parseInt(qnum));
-                }
-                else{
-                    endOfGame();
-                } 
-            }
-        })
+            })
+        }
     }
+else{
+    endOfGame();
+}
 }
 
 
