@@ -191,39 +191,18 @@ highScoreButton.addEventListener("click", function(event){
         winnerName: nameInput.value
     }
     champions.push(savedObject);
-    // champions.push(nameInput.value);
-    // highscores.push(parseInt(score));
     savedChampions = JSON.stringify(champions);
-    // savedHighscores = JSON.stringify(highscores);
-    // localStorage.setItem("highScore", savedHighscores);
     localStorage.setItem("champion", savedChampions);
     location.href = "highscores.html";
 });
 
 function storageCheck() {
-    // Check if
-    // If so, parse the value from localStorage and assign it to the todos variable
+    // Check if there are previous winners saved in the localStorage
+    // If so, parse the value from localStorage and assign it to the saved winners variable
     var savedChampions = JSON.parse(localStorage.getItem("champion"));
-    // var savedHighScore = JSON.parse(localStorage.getItem("highScore"));
+    
     if(savedChampions){
-    //   highscores = savedHighScore;
+    
       champions = savedChampions;
     }
 };
-
-// function correctCD() {
-//     var display = 2;
-//     rightOrWrong.textContent = "CORRECT"
-//     display--;
-//     clearInterval(timerInterval);
-//     //countdown break
-//     if (display === 0){
-//         clearInterval(timerInterval);
-//         rightOrWrong.textContent = "";
-//     }
-//     var timerInterval = setTimeout(function(){
-//         scoreCountDown();
-//     displayQuestion(parseInt(qnum)+1);
-//                     displayAnswers(parseInt(qnum)+1);
-//     }, 2000)
-// }
